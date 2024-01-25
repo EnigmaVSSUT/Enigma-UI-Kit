@@ -1,5 +1,5 @@
 {
-  "version": "0.0.1",
+  "version": "0.0.0-development",
   "license": "MIT",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -13,7 +13,7 @@
   "scripts": {
     "start": "tsdx watch",
     "build": "tsdx build",
-    "release": "npm run build && npx changeset && npx changeset version && npx changeset publish",
+    "release": "npm run build &&  npx changeset publish",
     "test": "jest",
     "format": "prettier --write .",
     "lint": "tsdx lint",
@@ -21,7 +21,8 @@
     "size": "size-limit",
     "analyze": "size-limit --why",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "semantic-release": "npx semantic-release --branches release"
   },
   "peerDependencies": {
     "react": ">=16"
@@ -55,7 +56,8 @@
     "@babel/preset-env": "^7.23.2",
     "@babel/preset-react": "^7.22.15",
     "@babel/preset-typescript": "^7.23.2",
-    "@changesets/cli": "^2.27.1",
+    "@semantic-release/git": "^10.0.1",
+    "@semantic-release/github": "^9.2.6",
     "@size-limit/preset-small-lib": "^10.0.2",
     "@storybook/addon-essentials": "^7.5.3",
     "@storybook/addon-info": "^5.3.21",
@@ -83,6 +85,7 @@
     "react-dom": "^18.2.0",
     "react-is": "^18.2.0",
     "rollup-plugin-postcss": "^4.0.2",
+    "semantic-release": "^23.0.0",
     "size-limit": "^10.0.2",
     "storybook": "^7.5.1",
     "tailwindcss": "^3.3.5",
@@ -94,5 +97,9 @@
     "*.{js,jsx,ts,tsx}": [
       "prettier --write"
     ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/EnigmaVSSUT/Enigma-UI-Kit.git"
   }
 }
