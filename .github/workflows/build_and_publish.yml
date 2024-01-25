@@ -22,22 +22,18 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - name: npm install and build
-        run: |
-          npm install --frozen-lockfile
-          npm run lint &&  npm run build --if-present
-        env:
-          CI: true
+        run: npm ci
 
   publish:
     runs-on: ubuntu-latest
+    if: ${{ github.ref == 'refs/heads/main' || github.ref == 'refs/heads/releases' }}
     needs: [ build ]
     steps: 
     - uses: actions/checkout@v2
     - name: Use Node.js enironment
       uses: actions/setup-node@v3
       with:
-          node-version: 16.x
-          cache: 'npm'
+         node-version: ${{ matrix.node-version }}
     - run: npm ci
     - run: npm run semantic-release
       env: 
