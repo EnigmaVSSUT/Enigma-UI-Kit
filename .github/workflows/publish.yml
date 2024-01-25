@@ -8,8 +8,6 @@ on:
     
     types: [completed]
 
-concurrency: ${{ github.workflow }}-${{ github.ref }}
-
 permissions:
   contents: write
   pull-requests: write
@@ -17,7 +15,7 @@ permissions:
 jobs:
   publish:
     runs-on: ubuntu-latest
-    if: ${{ github.ref == 'refs/heads/main' || github.ref == 'refs/heads/releases' }}
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps: 
     - uses: actions/checkout@v2
     - name: Use Node.js enironment
