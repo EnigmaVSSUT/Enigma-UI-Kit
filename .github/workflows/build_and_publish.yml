@@ -5,12 +5,16 @@ on:
   pull_request:
     branches: [main, releases]
 
+permissions:
+  contents: write
+  pull-requests: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [14.x]
+        node-version: [18.x]
     steps:
       - uses: actions/checkout@v2
       - name: Use Node.js ${{ matrix.node-version }}
@@ -23,3 +27,19 @@ jobs:
           npm run lint &&  npm run build --if-present
         env:
           CI: true
+
+  publish:
+    runs-on: ubuntu-latest
+    needs: [ build ]
+    steps: 
+    - uses: actions/checkout@v2
+    - name: Use Node.js enironment
+      uses: actions/setup-node@v3
+      with:
+          node-version: 18.x
+          cache: 'npm'
+    - run: npm ci
+    - run: npm run semantic-release
+      env: 
+        NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.REPO_TOKEN }}
