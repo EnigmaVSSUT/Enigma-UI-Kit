@@ -2,10 +2,10 @@ name: Publish
 on:
   workflow_run:
     workflows: [CI]
-    branches: [
-      releases,
-      main
-    ]
+    branches: 
+      - releases,
+      - main
+    
     types: [completed]
 
 concurrency: ${{ github.workflow }}-${{ github.ref }}
@@ -17,14 +17,14 @@ permissions:
 jobs:
   publish:
     runs-on: ubuntu-latest
-    if: ${{ github.ref == 'refs/heads/main' }}
-    needs: [quality]
+    if: ${{ github.ref == 'refs/heads/main' || github.ref == 'refs/heads/releases' }}
     steps: 
     - uses: actions/checkout@v2
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v2
+    - name: Use Node.js enironment
+      uses: actions/setup-node@v3
       with:
-        node-version: ${{ matrix.node-version }}
+          node-version: 16.x
+          cache: 'npm'
     - run: npm ci
     - run: npm run semantic-release
       env: 
